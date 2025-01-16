@@ -1,0 +1,16 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "This sis the backend of the devtinder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run" : "node src/app.js",
+    "dev" : "nodemon src/app.js"
+  },
+  "author": "Goutham Mallya G",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
