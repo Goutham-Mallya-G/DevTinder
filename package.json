@@ -1,0 +1,22 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goutham-Mallya-G/DevTinder.git"
+  },
+  "author": "Goutham Mallya G",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goutham-Mallya-G/DevTinder/issues"
+  },
+  "homepage": "https://github.com/Goutham-Mallya-G/DevTinder#readme",
+  "description": "",
+  "dependencies": {
+    "mongodb": "^6.17.0"
+  }
+}
