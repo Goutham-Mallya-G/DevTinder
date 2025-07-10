@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon src/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,6 @@
   "homepage": "https://github.com/Goutham-Mallya-G/DevTinder#readme",
   "description": "",
   "dependencies": {
-    "mongodb": "^6.17.0"
+    "express": "^5.1.0"
   }
 }
