@@ -2,17 +2,12 @@ const express = require("express");
 
 const app = express();
 
+const {adminAuth} = require("../utils/Middlewares");
 
-app.use("/test" , (req,res)=>{
-    res.send("Welcome to the testing page");
-})
+app.use("/admin", adminAuth);
 
-app.use("/beta",(req,res) => {
-    res.send("Caution : This is a beta version");
-})
-
-app.use("/",(req,res)=>{
-    res.send("hello from the home");
+app.get("/admin/check", (req,res) => {
+    res.send("admin checking"); 
 })
 
 app.listen(3000 , () => {
