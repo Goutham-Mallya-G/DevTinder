@@ -43,7 +43,7 @@ app.patch("/update" , async(req,res) => {
     const mail = req.body.emailId;
     const data = req.body;
     try{
-        const user = await User.findOneAndUpdate({emailId : mail}, data);
+        const user = await User.findOneAndUpdate({emailId : mail}, data ,{ runValidators:true});
         res.send("user updated");
     }catch(err){
         res.status(400).send("Something went wrong");
