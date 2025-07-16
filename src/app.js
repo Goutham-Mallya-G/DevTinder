@@ -3,8 +3,12 @@ const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const userAuth = require("./utils/userAuth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup" , async (req,res)=> {
     const {firstName , lastName , emailId , password, phone , gender , photoURL , skills} = req.body;
@@ -37,11 +41,23 @@ app.post("/login" , async (req ,res) => {
         const isPasswordValid = await bcrypt.compare(password , user.password);
         if(!isPasswordValid){
             throw new Error("Email or Password is incorrect");
-        }else{
-            res.send("Login successfull")
+        }
+        if(isPasswordValid){
+            const token  = await jwt.sign({_id : user._id} , "DevTinderSecretKey");
+            res.cookie("token" , token);
+            res.send("reading Cookie");
         }
     }catch(err){
         res.status(400).send("Error : " + err.message);
+    }
+});
+
+app.get("/profile", userAuth, async (req , res) => {
+    try{
+        const user = req.user;
+        res.send(user);
+    }catch(err){
+        res.status(401).send("Error : " + err.message);
     }
 });
 
@@ -98,7 +114,7 @@ app.patch("/update/:userId" , async(req,res) => {
 });
 
 connectDB().then(() => {
-    console.log("Connection succesful");
+    console.log("Database Connection succesful");
     app.listen(3000 , () => {
         console.log("Server stared");
     });
