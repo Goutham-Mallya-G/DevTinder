@@ -39,14 +39,22 @@ app.delete("/delete",async (req , res)=> {
     }
 });
 
-app.patch("/update" , async(req,res) => {
-    const mail = req.body.emailId;
+app.patch("/update/:userId" , async(req,res) => {
+    const userId = req.params?.userId;
     const data = req.body;
     try{
-        const user = await User.findOneAndUpdate({emailId : mail}, data ,{ runValidators:true});
+        const allowed = ["phone" , "gender" , "photoURL", "lastName" , "skills"];
+        const isUpdateAllowed = Object.keys(data).every((k) => allowed.includes(k));
+        if(!isUpdateAllowed){
+            throw new Error("Update not allowed");
+        }
+        if(data?.skills.length > 10){
+            throw new Error("Skills should not be more than 10");
+        }
+        const user = await User.findByIdAndUpdate( userId, data ,{ runValidators:true});
         res.send("user updated");
     }catch(err){
-        res.status(400).send("Something went wrong");
+        res.status(400).send("Update Failed :"+ err.message);
     }
 });
 
