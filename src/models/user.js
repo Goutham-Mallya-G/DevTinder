@@ -36,7 +36,7 @@ const Userschema = new mongoose.Schema({
                 throw new Error("Enter a strong password");
             }
         },
-        maxLength : 20,
+        maxLength : 100,
     },
     phone: {
         type : String,

@@ -2,16 +2,46 @@ const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
+const bcrypt = require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup" , async (req,res)=> {
-    const user = new User(req.body);
+    const {firstName , lastName , emailId , password, phone , gender , photoURL , skills} = req.body;
+    const passwordHash = await bcrypt.hash(password ,10);
+    const user = new User({
+        firstName,
+        lastName,
+        emailId,
+        gender,
+        photoURL,
+        skills,
+        phone,
+        password : passwordHash,
+    });
     try{
         await user.save();
         res.send("User added");
     } catch(err){
         res.status(400).send("user not added"+ err.message);
+    }
+});
+
+app.post("/login" , async (req ,res) => {
+    const {emailId ,password} = req.body;
+    try{
+        const user = await User.findOne({emailId : emailId});
+        if(!user){
+            throw new Error("Email or Password is incorrect");
+        }
+        const isPasswordValid = await bcrypt.compare(password , user.password);
+        if(!isPasswordValid){
+            throw new Error("Email or Password is incorrect");
+        }else{
+            res.send("Login successfull")
+        }
+    }catch(err){
+        res.status(400).send("Error : " + err.message);
     }
 });
 
@@ -30,12 +60,21 @@ app.get("/feed" ,async  (req , res) => {
 });
 
 app.delete("/delete",async (req , res)=> {
-    const id = req.body.id;
+    const {emailId , password}= req.body;
     try{
-        const user =await  User.findByIdAndDelete(id);
-        res.send("User deleted susscefully")
+        const user = await User.findOne({emailId : emailId});
+        if(!user){
+            throw new Error("Email or Password is incorrect");
+        }
+        const isPasswordValid = await bcrypt.compare(password , user.password);
+        if(!isPasswordValid){
+            throw new Error("Email or Password is incorrect");
+        }else{
+            const deleteUser = await User.findOneAndDelete({emailId : emailId});
+            res.send("User deleted successfully");
+        }
     }catch(err){
-        res.status(401).send("Something went wrong");
+        res.status(401).send("Error : " + err.message);
     }
 });
 
@@ -43,7 +82,7 @@ app.patch("/update/:userId" , async(req,res) => {
     const userId = req.params?.userId;
     const data = req.body;
     try{
-        const allowed = ["phone" , "gender" , "photoURL", "lastName" , "skills"];
+        const allowed = ["phone" , "gender" , "photoURL", "lastName" , "skills", "password"];
         const isUpdateAllowed = Object.keys(data).every((k) => allowed.includes(k));
         if(!isUpdateAllowed){
             throw new Error("Update not allowed");
