@@ -27,18 +27,27 @@ authUserRouter.post("/signup" , async (req,res)=> {
 authUserRouter.post("/login" , async (req,res)=>{
     const{emailId , password} = req.body;
     const user = await User.findOne({emailId : emailId});
-    if(!user){
-        throw new Error("Email or Password is incorrect");
+    try{
+        if(!user){
+            throw new Error("Email or Password is incorrect");
+        }
+        const isPasswordValid = await user.isValidPassword(password);
+        if(!isPasswordValid){
+            throw new Error("Email or Password is incorrect");
+        }
+        if(isPasswordValid){
+            const token = await user.getJWT();
+            res.cookie("token" , token, { expires: new Date(Date.now() + (7 * 24) * 3600000)});
+            res.send("Login successfull");
+        }
+    }catch(err){
+        res.status(401).send("Error : " + err.message);
     }
-    const isPasswordValid = await user.isValidPassword(password);
-    if(!isPasswordValid){
-        throw new Error("Email or Password is incorrect");
-    }
-    if(isPasswordValid){
-        const token = await user.getJWT();
-        res.cookie("token" , token, { expires: new Date(Date.now() + (7 * 24) * 3600000)});
-        res.send("Login successfull");
-    }
+})
+
+authUserRouter.post("/logout" , (req,res) => {
+    res.cookie("token" , null , {expires: new Date(Date.now())});
+    res.send("Logout succesfull");
 })
 
 module.exports = authUserRouter;
