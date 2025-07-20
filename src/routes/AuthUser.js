@@ -4,6 +4,7 @@ const authUserRouter = express.Router();
 const bcrypt= require("bcrypt");
 
 authUserRouter.post("/signup" , async (req,res)=> {
+    console.log(req.body);
     const {firstName,lastName, gender , phone , emailId , password , photoURL , skills} = req.body;
     const hashPassword = await bcrypt.hash(password , 10);
     const user = new User({

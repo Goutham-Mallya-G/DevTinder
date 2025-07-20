@@ -3,7 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const Userschema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     firstName: {
         type : String,
         required : true,
@@ -51,10 +51,9 @@ const Userschema = new mongoose.Schema({
     gender: {
         type : String,
         lowercase : true,
-        validate(value){
-            if(!["male" , "female" , "others"].includes(value)){
-                throw new Error("Gender is not valid");
-            }
+        enum:{
+            values: ["male", "female", "others"],
+            message: `{VALUE} is not a gender`,
         },
         trim:true,
     },
@@ -72,16 +71,16 @@ const Userschema = new mongoose.Schema({
     timestamps : true
 });
 
-Userschema.methods.getJWT = async function(){
+UserSchema.methods.getJWT = async function(){
     const user = this;
     const token = await jwt.sign({_id : user._id} , "DevTinderSecretKey" , {expiresIn : "7d"});
     return token;
 }
 
-Userschema.methods.isValidPassword = async function(password){
+UserSchema.methods.isValidPassword = async function(password){
     const user = this;
     const isPasswordValid = await bcrypt.compare(password , user.password);
     return isPasswordValid;
 }
 
-module.exports = mongoose.model("User" , Userschema);
+module.exports = mongoose.model("User" , UserSchema);
