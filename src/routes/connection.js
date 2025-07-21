@@ -36,7 +36,7 @@ connectionRouter.post("/request/sent/:status/:userId" , userAuth , async (req,re
         })
 
         if(existingRequest){
-            throw new Error("Connection is pending")
+            throw new Error("Connection is already established")
         }
         
        const data = await connectionRequest.save();
@@ -45,6 +45,43 @@ connectionRouter.post("/request/sent/:status/:userId" , userAuth , async (req,re
     }catch(err){
         res.status(401).send("Error : " + err.message);
     }
+})
+
+connectionRouter.post("/request/receive/:status/:userId", userAuth , async (req,res) => {
+    try{
+        const receiver = req.user;
+        const senderId = req.params.userId;
+        const status = req.params.status;
+        
+        const allowedStatus = ["accepted", "rejected"];
+
+        const isValidStatus = allowedStatus.includes(status);
+
+        if(!isValidStatus){
+            throw new Error("Request is not valid");
+        }
+
+        const connectionRequest = await ConnectionRequest.findOne({
+            senderId: senderId,
+            receiverId: receiver._id,
+            status : "intrested"
+        })
+
+        const sender = await User.findById(senderId)
+
+        if(!connectionRequest){
+            throw new Error("Request is not valid");
+        }
+
+        connectionRequest.status = status;
+
+        const data = await connectionRequest.save();
+        res.send("You " + status + " connection from " + sender.firstName);
+
+    }catch(err){
+        res.status(401).send("Error : " + err.message)
+    }
+    
 })
 
 module.exports = connectionRouter;

@@ -1,25 +1,23 @@
 # dev Tinder API List
 
 ## AuthUser
- - post Signup
- - post Login
- - post Logout
+ - POST Signup
+ - POST Login
+ - POST Logout
 
 ## ProfileRouter
- - get Feed
- - Patch profile/view
- - Patch profile/edit
- - Patch profile/password
+ - GET Feed
+ - PATCH profile/view
+ - PATCH profile/edit
+ - PATCH profile/password
  - Delete profile/delete
 
 ## connectionRequest
- - Post /request/sent/accepted/:userId
- - post /request/sent/rejected/:userId
- - post /request/received/accepted/:userId
- - post /request/received/rejected/:userId
+ - POST /request/sent/:status/:userId
+ - POST /request/received/:status/:userId
 
 ## userrouter
- - get /user/connections/
- - get /user/feed/
- - get /user/request
+ - GET /user/connections/
+ - GET /user/feed/
+ - GET /user/request
  
