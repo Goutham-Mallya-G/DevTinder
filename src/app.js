@@ -11,6 +11,7 @@ const userAuth = require("./utils/userAuth");
 const authUserRouter = require("../src/routes/AuthUser");
 const profileRouter = require("../src/routes/profile");
 const connectionRouter = require("../src/routes/connection");
+const userListRouter = require("./routes/userList");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -18,7 +19,7 @@ app.use(cookieParser());
 app.use("/" , authUserRouter);
 app.use("/" , profileRouter);
 app.use("/" , connectionRouter);
-
+app.use("/" , userListRouter);
 
 
 app.post("/sendConnection" , userAuth , async(req , res) => {
