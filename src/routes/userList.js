@@ -2,6 +2,8 @@ const express = require("express");
 const userListRouter = express.Router();
 const userAuth = require("../utils/userAuth");
 const ConnectionRequest = require("../models/ConnectionRequst");
+const { connection } = require("mongoose");
+const User = require("../models/User");
 
 userListRouter.get("/userList/request/received" , userAuth, async (req , res) => {
     try{
@@ -53,4 +55,39 @@ userListRouter.get("/userList/connection" , userAuth , async (req,res) => {
     }
 })
 
-module.exports = userListRouter;
+userListRouter.get("/userList/feed" , userAuth , async(req,res)=> {
+    try{
+        const user = req.user;
+
+        const connectionRequests = await ConnectionRequest.find({
+            $or:[
+                {senderId : user._id},
+                {receiverId : user._id}
+            ]
+        })
+
+        const hiddenUsersFromFeed = new Set();
+
+        connectionRequests.forEach((req) => {
+            hiddenUsersFromFeed.add(req.receiverId.toString());
+            hiddenUsersFromFeed.add(req.senderId.toString());
+        })
+
+        const intrestedUsers = await ConnectionRequest.find({
+            receiverId : user._id,
+            status : "intrested"
+        }).populate("senderId" , ["firstName" , "lastName" , "gender"]);
+
+        const noConnectionToUser = await User.find({
+            _id : {$nin: Array.from(hiddenUsersFromFeed)}
+        }).select("firstName lastName gender");
+
+        const usersInFeed = [...intrestedUsers.map((req) => req.senderId) , ...noConnectionToUser]
+
+        res.send(usersInFeed);
+    }catch(err){
+        res.status(401).send("Error : " + err.message);
+    }
+})
+
+module.exports = userListRouter;    
