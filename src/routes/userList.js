@@ -59,6 +59,12 @@ userListRouter.get("/userList/feed" , userAuth , async(req,res)=> {
     try{
         const user = req.user;
 
+        const page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit)|| 10;
+
+        limit = limit > 50 ? 50 : limit;
+        const skip = (page - 1) * limit
+
         const connectionRequests = await ConnectionRequest.find({
             $or:[
                 {senderId : user._id},
@@ -73,21 +79,16 @@ userListRouter.get("/userList/feed" , userAuth , async(req,res)=> {
             hiddenUsersFromFeed.add(req.senderId.toString());
         })
 
-        const intrestedUsers = await ConnectionRequest.find({
-            receiverId : user._id,
-            status : "intrested"
-        }).populate("senderId" , ["firstName" , "lastName" , "gender"]);
 
         const noConnectionToUser = await User.find({
             _id : {$nin: Array.from(hiddenUsersFromFeed)}
-        }).select("firstName lastName gender");
+        }).select("firstName lastName gender").skip(skip).limit(limit);
 
-        const usersInFeed = [...intrestedUsers.map((req) => req.senderId) , ...noConnectionToUser]
+        res.send(noConnectionToUser);
 
-        res.send(usersInFeed);
     }catch(err){
         res.status(401).send("Error : " + err.message);
     }
 })
 
-module.exports = userListRouter;    
+module.exports = userListRouter; 
