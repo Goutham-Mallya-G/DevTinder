@@ -39,7 +39,7 @@ authUserRouter.post("/login" , async (req,res)=>{
         if(isPasswordValid){
             const token = await user.getJWT();
             res.cookie("token" , token, { expires: new Date(Date.now() + (7 * 24) * 3600000)});
-            res.send("Login successfull");
+            res.send(user);
         }
     }catch(err){
         res.status(401).send("Error : " + err.message);
