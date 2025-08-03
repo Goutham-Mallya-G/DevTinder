@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { default_pic } = require("../utils/const");
+const {jwt_secret_key} = require("../utils/const");
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -59,7 +61,7 @@ const UserSchema = new mongoose.Schema({
     },
     photoURL:{
         type:String,
-        default:"https://www.google.com/imgres?q=profile%20pics%20default&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Fdefault-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3485.jpg&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Fdefault-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_136983700.htm&docid=due-fP6YSRx-HM&tbnid=9IIp7r61AMBiGM&vet=12ahUKEwjulfTt77yOAxUexjgGHc55NuwQM3oFCIQBEAA..i&w=626&h=626&hcb=2&ved=2ahUKEwjulfTt77yOAxUexjgGHc55NuwQM3oFCIQBEAA",
+        default: default_pic,
         trim:true,
 
 
@@ -73,7 +75,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.getJWT = async function(){
     const user = this;
-    const token = await jwt.sign({_id : user._id} , "DevTinderSecretKey" , {expiresIn : "7d"});
+    const token = jwt.sign({_id : user._id} , jwt_secret_key , {expiresIn : "7d"});
     return token;
 }
 

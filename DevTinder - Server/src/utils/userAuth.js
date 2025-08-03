@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const {jwt_secret_key} = require("./const");
 
 const userAuth = async(req,res,next) => {
     try{
@@ -8,7 +9,7 @@ const userAuth = async(req,res,next) => {
         if(!token){
             throw new Error("Token is invalid");
         }
-        const decodedId = await jwt.verify(token , "DevTinderSecretKey");
+        const decodedId = jwt.verify(token , jwt_secret_key);
         const{_id} = decodedId;
         const user = await User.findById(_id);
         if(!user){
