@@ -59,6 +59,12 @@ const UserSchema = new mongoose.Schema({
         },
         trim:true,
     },
+    description :{
+        type:String,
+        default:"This is the base description of the user",
+        minLength : 3,
+        maxLength : 60
+    },
     photoURL:{
         type:String,
         default: default_pic,

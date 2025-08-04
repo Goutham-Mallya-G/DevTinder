@@ -82,7 +82,7 @@ userListRouter.get("/userList/feed" , userAuth , async(req,res)=> {
 
         const noConnectionToUser = await User.find({
             _id : {$nin: Array.from(hiddenUsersFromFeed)}
-        }).select("firstName lastName gender").skip(skip).limit(limit);
+        }).select("firstName lastName gender photoURL description").skip(skip).limit(limit);
 
         res.send(noConnectionToUser);
 

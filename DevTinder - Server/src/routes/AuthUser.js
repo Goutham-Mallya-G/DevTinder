@@ -27,7 +27,6 @@ authUserRouter.post("/signup" , async (req,res)=> {
 
 authUserRouter.post("/login" , async (req,res)=>{
     const{emailId , password} = req.body;
-    console.log(password);
     const user = await User.findOne({emailId : emailId});
     try{
         if(!user){
