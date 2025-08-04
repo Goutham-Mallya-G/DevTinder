@@ -3,16 +3,20 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../utils/Slice/userSlice';
 import { BE_URL } from '../../utils/constant';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
   const [emailId , setEmailId] = useState("");
   const [password , setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handlelogin = async()=>{
       try{
         const res = await axios.post(BE_URL + "/login" , {emailId , password},{withCredentials:true});
         console.log(res.data);
         dispatch(addUser(res.data));
+        return navigate("/");
       }catch(err){
         console.log("Error : " + err.message)
       }

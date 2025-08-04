@@ -31,11 +31,11 @@ authUserRouter.post("/login" , async (req,res)=>{
     const user = await User.findOne({emailId : emailId});
     try{
         if(!user){
-            throw new Error("Email or Password is incorrect");
+            res.status(401).send("Email or Password is incorrect");
         }
         const isPasswordValid = await user.isValidPassword(password);
         if(!isPasswordValid){
-            throw new Error("Email or Password is incorrect");
+            res.status(401).send("Email or Password is incorrect");
         }
         if(isPasswordValid){
             const token = await user.getJWT();
@@ -43,7 +43,7 @@ authUserRouter.post("/login" , async (req,res)=>{
             res.send(user);
         }
     }catch(err){
-        res.status(401).send("Error : " + err.message);
+        res.status(400).send("Error : " + err.message);
     }
 })
 
