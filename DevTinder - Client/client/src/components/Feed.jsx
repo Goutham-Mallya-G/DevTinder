@@ -7,6 +7,7 @@ import { addFeed } from '../../utils/Slice/feedSlice';
 import axios from "axios";
 const Feed = () => {
   const feed = useSelector((slice)=>slice.feed);
+  console.log(feed);
   const dispatch = useDispatch();
   const getFeed = async() =>{
     if(feed) return;

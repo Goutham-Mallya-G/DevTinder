@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema({
         },
         trim:true,
     },
-    description :{
+    about :{
         type:String,
         default:"This is the base description of the user",
         minLength : 3,
@@ -74,6 +74,12 @@ const UserSchema = new mongoose.Schema({
     },
     skills:{
         type : [String],
+    },
+    age: {
+        type: Number,
+        min: 18,
+        max: 120,
+        required: false
     }
 },{
     timestamps : true

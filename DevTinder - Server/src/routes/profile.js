@@ -17,18 +17,18 @@ profileRouter.get("/profile" , userAuth , async (req,res) => {
 profileRouter.patch("/update" , userAuth , async(req,res) =>{
     try{
         const data = req.body;
-        const allowedUpdates = ["gender" , "phone" , "firstName" , "lastName" , "skills"];
+        const allowedUpdates = ["firstName" , "lastName" , "skills" , "age" , "photoURL", "about"];
         const isUpdateAllowd = Object.keys(data).every((key) => allowedUpdates.includes(key));
         if(!isUpdateAllowd){
             throw new Error("Update is not valid");
         }
-        if(data?.skills.length > 10){
+        if(data?.skills && data.skills.length > 10){
             throw new Error("Skills should not be more than 10");
         }
-        const user = await User.findByIdAndUpdate(req.user._id , data , {runValidators : true});
-        res.send("profile Updated");
+        const user = await User.findByIdAndUpdate(req.user._id , data , {runValidators : true, new: true});
+        res.send(user);
     }catch(err){
-        res.status(401).send("Error : " + err.message);
+        res.status(400).send("Error : " + err.message);
     }
 })
 

@@ -42,12 +42,12 @@ const NavBar = () => {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <Link to="/profile">
+        className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-32 p-2 shadow text-center">
+        <Link className="btn" to="/profile">
             Profile
         </Link>
-        <Link>Settings</Link>
-        <Link onClick={handleLogout}>Logout</Link>
+        <Link className="btn">Settings</Link>
+        <Link className="btn" onClick={handleLogout}>Logout</Link>
       </ul>
     </div>
   </div>
