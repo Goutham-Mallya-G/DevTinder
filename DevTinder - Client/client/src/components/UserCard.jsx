@@ -1,7 +1,6 @@
 import React from 'react'
 
 const UserCard = ({user}) => {
-    console.log(user);
   return (
      <div className='flex justify-center items-center'>
     <div className="card bg-base-300 w-66 shadow-md max-h-110">

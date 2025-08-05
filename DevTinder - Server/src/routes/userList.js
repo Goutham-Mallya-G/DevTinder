@@ -36,7 +36,7 @@ userListRouter.get("/userList/connection" , userAuth , async (req,res) => {
                 {senderId : user , status : "accepted"},
                 {receiverId : user , status : "accepted"}
             ]
-        }).populate("senderId" , ["firstName" , "lastName"] ).populate("receiverId" , ["firstName" ,"lastName"]);
+        }).populate("senderId" , ["firstName" , "lastName" , "gender" , "age" , "about", "photoURL"] ).populate("receiverId" , ["firstName" ,"lastName", "gender" , "age" , "about", "photoURL"]);
 
         const data = connections.map((connection) => {
             if(connection.senderId.equals(user._id)){
@@ -51,7 +51,7 @@ userListRouter.get("/userList/connection" , userAuth , async (req,res) => {
         }
         res.send(data);
     }catch(err){
-        res.status(401).send("Error : " + err.message);
+        res.status(400).send("Error : " + err.message);
     }
 })
 

@@ -32,11 +32,13 @@ const Body = () => {
   } , []);
 
   return (
-    <div className="h-screen flex flex-col justify-between">
-        <NavBar/>
-        <Outlet/>
-        <Footer/>
-    </div>
+     <div className="h-screen flex flex-col w-full overflow-x-hidden">
+       <NavBar/>
+       <div className="flex-grow w-full overflow-x-hidden">
+         <Outlet/>
+       </div>
+       <Footer/>
+     </div>
   )
 }
 

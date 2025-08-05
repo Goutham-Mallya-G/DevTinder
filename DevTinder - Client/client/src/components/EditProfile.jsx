@@ -37,7 +37,7 @@ const editProfile = ({user}) => {
     <h2 className="font-bold text-xl text-center">Edit your profile</h2>
   <fieldset className="fieldset">
     <legend className="fieldset-legend">First Name</legend>
-    <input type="text" className="input w-80" value={firstName} onChange={(e)=>{setFirstName(e.target.value)}}/>
+    <input type="text" className="input min-w-70" value={firstName} onChange={(e)=>{setFirstName(e.target.value)}}/>
   </fieldset>
   <fieldset className="fieldset">
     <legend className="fieldset-legend">Last Name</legend>
@@ -59,7 +59,7 @@ const editProfile = ({user}) => {
   </div>
 </div>
 </div>}
-<div>
+<div className='max-sm:hidden'>
   <UserCard user={user}></UserCard>
 </div>
     {toast && <div className="toast toast-top toast-end">

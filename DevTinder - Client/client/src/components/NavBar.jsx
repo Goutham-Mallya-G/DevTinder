@@ -22,11 +22,11 @@ const NavBar = () => {
 
   return (
     <div>
-    {data && <div className="navbar bg-base-300 shadow-sm">
+    {data && <div className="navbar bg-base-300 shadow-sm w-full">
   <div className="flex-1">
     <Link to='/'><button className="btn btn-ghost text-xl">DevTinder</button></Link>
   </div>
-  <div className="mr-3">
+  <div className="mr-3 hidden sm:block">
       <p>welcome </p>
       <p>{data.firstName}</p>
   </div>
@@ -46,7 +46,7 @@ const NavBar = () => {
         <Link className="btn" to="/profile">
             Profile
         </Link>
-        <Link className="btn">Settings</Link>
+        <Link to="/connections" className="btn">Connections</Link>
         <Link className="btn" onClick={handleLogout}>Logout</Link>
       </ul>
     </div>
