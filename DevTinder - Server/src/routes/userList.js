@@ -14,10 +14,10 @@ userListRouter.get("/userList/request/received" , userAuth, async (req , res) =>
                 receiverId : user._id ,
                 status : "intrested"
             }
-        ).populate("senderId" , ["firstName" , "lastName"]);
+        ).populate("senderId" , ["firstName" , "lastName" , "gender" , "age" , "about", "photoURL"]);
 
         if(allRequests.length == 0){
-            res.send("There are no new request")
+            return res.send([]);
         }
 
         const data = allRequests.map((connection) => connection.senderId);
@@ -47,7 +47,7 @@ userListRouter.get("/userList/connection" , userAuth , async (req,res) => {
         });
 
         if(data.length == 0){
-            res.send("There is no connection");
+            return res.send([]);
         }
         res.send(data);
     }catch(err){
