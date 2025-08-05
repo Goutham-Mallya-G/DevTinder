@@ -73,6 +73,8 @@ userListRouter.get("/userList/feed" , userAuth , async(req,res)=> {
         })
 
         const hiddenUsersFromFeed = new Set();
+        
+        hiddenUsersFromFeed.add(user._id.toString());
 
         connectionRequests.forEach((req) => {
             hiddenUsersFromFeed.add(req.receiverId.toString());
