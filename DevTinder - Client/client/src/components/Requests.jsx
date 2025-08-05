@@ -2,13 +2,22 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { BE_URL } from '../../utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRequests } from '../../utils/Slice/requestsSlice'
+import { addRequests, removeRequest } from '../../utils/Slice/requestsSlice'
 
 const Requests = () => {
 
     const requests = useSelector((slice)=>(slice.requests));
 
     const dispatch = useDispatch();
+
+    const setStatus = async(status, _id)=>{
+        try{
+            await axios.post(BE_URL + "/request/receive/"+ status + "/" +_id , {}, {withCredentials : true});
+            dispatch(removeRequest(_id));
+        }catch(err){
+            console.log("Error : " + err.message);
+        }
+    }
 
     const getRequests = async() => {
         try{
@@ -36,8 +45,8 @@ const Requests = () => {
     <div className='max-w-4xl mx-auto px-4'>
     <div>
     <div className='flex justify-center font-bold text-xl sm:text-2xl p-3 sm:p-5'>requests</div>
-    {requests.map((connection) => {
-        const {_id , firstName , lastName , age , about , gender , photoURL} = connection;
+    {requests.map((request) => {
+        const {_id , firstName , lastName , age , about , gender , photoURL} = request;
 
         return(
             <div key = {_id} className='flex rounded-xl sm:rounded-2xl bg-base-300 mb-2 sm:mb-3 mx-2 sm:mx-0 md:w-150'>
@@ -52,9 +61,9 @@ const Requests = () => {
             </div>
 
             <div className='flex items-center gap-3 mr-3'>
-                <button className="btn btn-primary">Reject</button>
-                <button className="btn btn-secondary">Accept</button>
-            </div>
+                <button className="btn btn-primary" onClick={()=>setStatus("rejected" , _id)}>Reject</button>
+                <button className="btn btn-secondary" onClick={()=>setStatus("accepted" , _id)}>Accept</button>
+                </div>
 
             </div>
 
