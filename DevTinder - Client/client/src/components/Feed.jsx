@@ -32,9 +32,6 @@ const Feed = () => {
   return (
     <div>
       <UserCard user={feed[0]} />
-      <div className="text-center mt-4 text-sm text-gray-500">
-        {feed.length} user{feed.length !== 1 ? 's' : ''} remaining
-      </div>
     </div>
   )
 }
