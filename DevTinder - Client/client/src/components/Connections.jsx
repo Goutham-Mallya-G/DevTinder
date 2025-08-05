@@ -29,20 +29,20 @@ const Connections = () => {
     }
 
   return (
-    <div>
-    <div className='flex justify-center font-bold text-2xl p-5'>Connections</div>
+    <div className='max-w-4xl mx-auto px-4'>
+    <div className='flex justify-center font-bold text-xl sm:text-2xl p-3 sm:p-5'>Connections</div>
     {connections.map((connection) => {
         const {_id , firstName , lastName , age , about , gender , photoURL} = connection;
 
         return(
-            <div className='flex md:h-4/12 md:w-6/12 m-auto rounded-2xl bg-base-300 mb-3'>
-            <div key={_id} className='flex items-center p-4'>
-                <img className="w-20 h-20 rounded-full" src={photoURL}/>
+            <div className='flex rounded-xl sm:rounded-2xl bg-base-300 mb-2 sm:mb-3 mx-2 sm:mx-0'>
+            <div key={_id} className='flex items-center p-2 sm:p-4 flex-shrink-0'>
+                <img className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full object-cover" src={photoURL}/>
             </div>
-            <div className='flex flex-col justify-center gap-1'>
-                <p className='font-bold'>{firstName + " " + lastName}</p>
-                <p className='text-sm'>{age},&nbsp;{gender}</p>
-                <p>{about}</p>
+            <div className='flex flex-col justify-center gap-1 flex-grow min-w-0 p-2 sm:p-3'>
+                <p className='font-bold text-sm sm:text-base truncate'>{firstName + " " + lastName}</p>
+                <p className='text-xs sm:text-sm'>{age},&nbsp;{gender}</p>
+                <p className='text-xs sm:text-sm truncate'>{about}</p>
             </div>
             </div>
 
