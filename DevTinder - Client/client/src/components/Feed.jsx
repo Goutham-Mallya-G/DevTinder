@@ -9,12 +9,11 @@ const Feed = () => {
   const feed = useSelector((slice)=>slice.feed);
   const dispatch = useDispatch();
   const getFeed = async() =>{
-    if(feed) return;
     try{
       const res = await axios.get(BE_URL + "/userList/feed" , {withCredentials : true});
       dispatch(addFeed(res?.data))
     }catch(err){
-      console.log("Error : " + err.message);
+      console.log("Error fetching feed: " + err.message);
     }
   }
 
@@ -22,10 +21,21 @@ const Feed = () => {
     getFeed()
   },[])
 
+  if(!feed || feed.length === 0) {
+    return (
+      <div className="flex justify-center p-4">
+        <p>No more users to show in feed</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-  {feed && <UserCard user={feed[0]} />}
-   </div>
+      <UserCard user={feed[0]} />
+      <div className="text-center mt-4 text-sm text-gray-500">
+        {feed.length} user{feed.length !== 1 ? 's' : ''} remaining
+      </div>
+    </div>
   )
 }
 
