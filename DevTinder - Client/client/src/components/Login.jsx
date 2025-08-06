@@ -18,19 +18,29 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handlelogin = async()=>{
+    if(!emailId || !password){
+      setError("All fields are required");
+      setTimeout(()=>{
+        setError("");
+      },3000)
+      return;
+    }
       try{
         const res = await axios.post(BE_URL + "/login" , {emailId , password},{withCredentials:true});
         console.log(res.data);
         dispatch(addUser(res.data));
         return navigate("/");
       }catch(err){
-        console.log("Error : " + err.message)
+        const errorMessage = err.response?.data || err.message || "Login failed";
+        setError(errorMessage);
+        setTimeout(()=>{
+          setError("");
+        },3000)
       }
   }
 
   const handleSignup = async() => {
-      setError("");
-    
+
       if (!firstName || !lastName || gender === "Select your Gender" || !age || !emailId || !password) {
         setError("All fields are required");
         setTimeout(()=>{
@@ -41,6 +51,9 @@ const Login = () => {
       
       if (parseInt(age) < 18 || parseInt(age) > 120) {
         setError("Age must be between 18 and 120");
+        setTimeout(()=>{
+          setError("");
+        },2000)
         return;
       }
       
@@ -50,10 +63,17 @@ const Login = () => {
         return navigate("/profile")
       }catch(err){
         const errorMessage = err.response?.data || err.message || "Signup failed";
-        setError(errorMessage);
-        console.log("Error : " + err.message);
-        console.log("Response data:", err.response?.data);
-        console.log("Status:", err.response?.status);
+        if(errorMessage === "ValidationError"){
+          setError("Email or password is incorrect");
+          setTimeout(()=>{
+            setError("");
+          },3000);
+        }else{
+          setError(errorMessage);
+          setTimeout(()=>{
+            setError("")
+          },3000)
+        }
       }
   }
 
@@ -101,7 +121,7 @@ const Login = () => {
 
           <label className="label">Password</label>
           <input type="password" className="input" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button className="btn bg-blue-900 mt-4" onClick={isLogin ? handlelogin : handleSignup}>{isLogin ? "Login" : "Sign up"}</button>
+          <button className="btn bg-blue-900 mt-4" onClick={isLogin ? ()=>handlelogin() : ()=>handleSignup()}>{isLogin ? "Login" : "Sign up"}</button>
 
           <p className='cursor-pointer text-center' onClick={()=>setIsLogin(!isLogin)}>{isLogin ? "New user ? Sign Up ! " : "Existing user ? Log in !"}</p>
       </fieldset>

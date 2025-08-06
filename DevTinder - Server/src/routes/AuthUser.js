@@ -2,12 +2,16 @@ const express = require("express");
 const User = require("../models/User");
 const authUserRouter = express.Router();
 const bcrypt= require("bcrypt");
+const validator = require("validator");
 
 authUserRouter.post("/signup" , async (req,res)=> {
     console.log(req.body);
     const {firstName , lastName , gender ,age , emailId , password , photoURL} = req.body;
     if(!firstName || !lastName || !gender || !age || !emailId || !password){
         return res.status(400).send("Error : Data is invalid")
+    }
+    if (!validator.isStrongPassword(password)) {
+        return res.status(400).send("Password is too weak");
     }
     const hashPassword = await bcrypt.hash(password , 10);
     const user = new User({
@@ -24,7 +28,8 @@ authUserRouter.post("/signup" , async (req,res)=> {
         res.cookie("token" , token, { expires: new Date(Date.now() + (7 * 24) * 3600000)});
         res.send(user);
     }catch(err){
-        res.status(401).send("Error : " + err.message);
+        console.log(err.message);
+        res.status(401).send(err.message);
     }
 })
 
