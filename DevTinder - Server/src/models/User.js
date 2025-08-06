@@ -41,14 +41,7 @@ const UserSchema = new mongoose.Schema({
             }
         },
         maxLength : 100,
-    },
-    phone: {
-        type : String,
-        unique : true,
-        required : true,
-        minLength:10,
-        maxLength :10,
-        trim:true,
+        required:true, 
     },
     gender: {
         type : String,
@@ -69,11 +62,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default: default_pic,
         trim:true,
-
-
-    },
-    skills:{
-        type : [String],
     },
     age: {
         type: Number,
