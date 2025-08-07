@@ -6,12 +6,20 @@ import axios from "axios";
 import { BE_URL } from "../utils/constant";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/Slice/userSlice";
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 
 
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const[theme , setTheme] = useState(()=>{
+    const storedtheme = localStorage.getItem('theme');
+    if(storedtheme === null){
+      localStorage.setItem('theme', JSON.stringify(true));
+      return true;
+    }
+    return JSON.parse(storedtheme); 
+  })
   
   const fetchUser = async () => {
     try{
@@ -31,12 +39,14 @@ const Body = () => {
   } , []);
 
   return (
+    <div data-theme={theme ? "dark" : "light"}>
      <div className="h-screen flex flex-col w-full overflow-x-hidden">
-       <NavBar/>
+       <NavBar theme= {theme} setTheme={setTheme}/>
        <div className="flex-grow flex justify-center items-center">
          <Outlet/>
        </div>
        <Footer/>
+     </div>
      </div>
   )
 }
