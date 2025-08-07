@@ -61,8 +61,8 @@ const Requests = () => {
             </div>
 
             <div className='flex items-center gap-3 mr-3'>
-                <button className="btn btn-primary" onClick={()=>setStatus("rejected" , _id)}>Reject</button>
-                <button className="btn btn-secondary" onClick={()=>setStatus("accepted" , _id)}>Accept</button>
+                <button className="btn btn-secondary" onClick={()=>setStatus("rejected" , _id)}>Reject</button>
+                <button className="btn btn-primary" onClick={()=>setStatus("accepted" , _id)}>Accept</button>
                 </div>
 
             </div>

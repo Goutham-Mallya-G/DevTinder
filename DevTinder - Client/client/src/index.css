@@ -1,2 +1,23 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"{
+  themes: light --default, dark;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+   --color-primary: oklch(45% 0.18 260);       /* Deeper blue with nice contrast */
+  --color-secondary: oklch(58% 0.22 30);      /* Soft red-orange for energy */
+
+  --color-base-100: oklch(98% 0.005 250);     /* Near-white */
+  --color-base-200: oklch(95% 0.01 250);      /* Subtle blue tint */
+  --color-base-300: oklch(90% 0.015 250);     /* Light card background */
+
+  --text-color: oklch(28% 0.015 250);         /* Rich dark blue-gray */
+  --border-color: oklch(85% 0.005 250);
+}
+@plugin "daisyui/theme"{
+    name : "dark";
+    default : true;
+    --color-primary: oklch(37.9% 0.146 265.522); 
+    --color-secondary:  oklch(52% 0.23 27); 
+}

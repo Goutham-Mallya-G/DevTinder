@@ -24,12 +24,12 @@ const UserCard = ({user}) => {
             alt="profile picture" />
         </figure>
         <div className="card-body">
-            <h2 className="card-title">{user.firstName}&nbsp;{user.lastName}</h2>
+            <h2 className="card-title">{user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}&nbsp;{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}</h2>
             <p>{user.age},&nbsp; {user.gender === "male" ? "Male" : "Female"}</p>
             <p>{user.about}</p>
             <div className="card-actions flex justify-center gap-4">
-            <button className="btn btn-primary" onClick={()=>setConnection("ignored" , user._id)}>Ignore</button>
-            <button className="btn btn-secondary"onClick={()=>setConnection("intrested" , user._id)}>Intrested</button>
+            <button className="btn btn-secondary" onClick={()=>setConnection("ignored" , user._id)}>Ignore</button>
+            <button className="btn btn-primary"onClick={()=>setConnection("intrested" , user._id)}>Intrested</button>
             </div>
         </div>
     </div>

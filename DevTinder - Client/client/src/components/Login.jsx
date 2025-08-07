@@ -41,11 +41,35 @@ const Login = () => {
 
   const handleSignup = async() => {
 
-      if (!firstName || !lastName || gender === "Select your Gender" || !age || !emailId || !password) {
-        setError("All fields are required");
+      if (!firstName) {
+        setError("Please enter the First Name");
         setTimeout(()=>{
           setError("");
-        },2000)
+        },3000)
+        return;
+      }
+
+      if (!lastName) {
+        setError("Please enter the Last Name");
+        setTimeout(()=>{
+          setError("");
+        },3000)
+        return;
+      }
+
+      if (gender === "Select your Gender") {
+        setError("Please select your Gender");
+        setTimeout(()=>{
+          setError("");
+        },3000)
+        return;
+      }
+
+      if (!age ) {
+        setError("Please enter your Age");
+        setTimeout(()=>{
+          setError("");
+        },3000)
         return;
       }
       
@@ -53,7 +77,23 @@ const Login = () => {
         setError("Age must be between 18 and 120");
         setTimeout(()=>{
           setError("");
-        },2000)
+        },3000)
+        return;
+      }
+
+      if (!emailId) {
+        setError("Please enter your Email");
+        setTimeout(()=>{
+          setError("");
+        },3000)
+        return;
+      }
+
+      if (!password) {
+        setError("Please enter your password");
+        setTimeout(()=>{
+          setError("");
+        },3000)
         return;
       }
       
@@ -65,6 +105,11 @@ const Login = () => {
         const errorMessage = err.response?.data || err.message || "Signup failed";
         if(errorMessage === "ValidationError"){
           setError("Email or password is incorrect");
+          setTimeout(()=>{
+            setError("");
+          },3000);
+        }else if(errorMessage.includes("E11000 duplicate key error collection")){
+          setError("This Email is already taken");
           setTimeout(()=>{
             setError("");
           },3000);
@@ -91,35 +136,35 @@ const Login = () => {
           <p className='text-center text-xl font-bold'>{isLogin?"Login" : "Sign Up"}</p>
           
           {!isLogin && <div className='space-y-1'>
-          <label className="label">First Name</label>
+          <label className="label">First Name*</label>
           <input type="text" className="input" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
 
-          <label className="label">Last Name</label>
+          <label className="label">Last Name*</label>
           <input type="text" className="input" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
 
-          <label className="label">Gender</label>
+          <label className="label">Gender*</label>
           <div className='flex flex-col'>
           <div className="dropdown">
             <div tabIndex={0} className="input">{gender}</div>
-              <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                <li><button onClick={()=>setGender("male")}>Male</button></li>
-                <li><button onClick={()=>setGender("female")}>Female</button></li>
-                <li><button onClick={()=>setGender("others")}>Others</button></li>
+              <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2shadow-sm">
+                <li><button className="btn mb-1" onClick={()=>setGender("Male")}>Male</button></li>
+                <li><button className="btn mb-1" onClick={()=>setGender("Female")}>Female</button></li>
+                <li><button className="btn mb-1" onClick={()=>setGender("Others")}>Others</button></li>
               </ul>
             </div>
           </div>
 
 
-          <label className="label">Age</label>
+          <label className="label">Age*</label>
           <input type="number" className="input" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)}/>
 
         </div>}
 
         
-          <label className="label">Email</label>
+          <label className="label">Email*</label>
           <input type="email" className="input" placeholder="Email" value={emailId} onChange={(event) => setEmailId(event.target.value)}/>
 
-          <label className="label">Password</label>
+          <label className="label">Password*</label>
           <input type="password" className="input" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button className="btn bg-blue-900 mt-4" onClick={isLogin ? ()=>handlelogin() : ()=>handleSignup()}>{isLogin ? "Login" : "Sign up"}</button>
 
