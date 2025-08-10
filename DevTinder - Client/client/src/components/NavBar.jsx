@@ -29,7 +29,7 @@
     </div>
     <div className="mr-3">
     <label className="swap swap-rotate">
-    <input type="checkbox" className="theme-controller" checked={!theme} onClick={() => {
+    <input type="checkbox" className="theme-controller" checked={!theme} onChange={() => {
           const newTheme = !theme;
           setTheme(newTheme);
           localStorage.setItem("theme", JSON.stringify(newTheme));
@@ -54,7 +54,7 @@
 
     </div>
     <div className="mr-3 hidden sm:block">
-        <p>Welcome, {data.firstName}</p>
+        <p>Welcome, {data.firstName.charAt(0).toUpperCase() + data.firstName.slice(1)}</p>
     </div>
     <div className="flex gap-2">
       <div className="dropdown dropdown-end">

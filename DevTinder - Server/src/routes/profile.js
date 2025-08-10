@@ -22,9 +22,6 @@ profileRouter.patch("/update" , userAuth , async(req,res) =>{
         if(!isUpdateAllowd){
             throw new Error("Update is not valid");
         }
-        if(data?.skills && data.skills.length > 10){
-            throw new Error("Skills should not be more than 10");
-        }
         const user = await User.findByIdAndUpdate(req.user._id , data , {runValidators : true, new: true});
         res.send(user);
     }catch(err){

@@ -25,7 +25,7 @@ const UserCard = ({user}) => {
         </figure>
         <div className="card-body">
             <h2 className="card-title">{user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}&nbsp;{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}</h2>
-            <p>{user.age},&nbsp; {user.gender === "male" ? "Male" : "Female"}</p>
+            <p>{user.age},&nbsp; {user.gender === "male" ? "Male" : user.gender === "female" ? "Female" : "Others"}</p>
             <p>{user.about}</p>
             <div className="card-actions flex justify-center gap-4">
             <button className="btn btn-secondary" onClick={()=>setConnection("ignored" , user._id)}>Ignore</button>
