@@ -1,7 +1,8 @@
   import { useDispatch, useSelector } from "react-redux"
   import { Link, useNavigate } from "react-router-dom";
   import axios from "axios";
-  import {BE_URL} from "../../utils/constant"
+// Backend URL from environment variable
+const BE_URL = import.meta.env.VITE_BE_URL || "http://localhost:3000";
   import { removeUser } from "../../utils/Slice/userSlice";
   import { useState } from "react";
 
