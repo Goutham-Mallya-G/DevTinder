@@ -34,10 +34,10 @@ The application follows a standard Client-Server architecture.
 
 ```mermaid
 flowchart TD
-    Client[React Client (Vite)] -->|HTTP / REST| API[Express API Router]
-    API --> Middleware[Auth Middleware]
-    Middleware --> Controllers[Route Handlers]
-    Controllers --> Models[Mongoose Models]
+    Client["React Client (Vite)"] -->|HTTP / REST| API["Express API Router"]
+    API --> Middleware["Auth Middleware"]
+    Middleware --> Controllers["Route Handlers"]
+    Controllers --> Models["Mongoose Models"]
     Models --> DB[(MongoDB)]
 ```
 
