@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
@@ -16,6 +18,7 @@ const allowedOrigins = [
     "http://localhost:5174",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
+    "https://devtinderhub.vercel.app"
 ];
 
 app.use(cors({
@@ -46,13 +49,16 @@ app.post("/sendConnection" , userAuth , async(req , res) => {
     }
 })
 
+const PORT=process.env.PORT || 3000;
+
 connectDB().then(() => {
     console.log("Database Connection succesful");
-    app.listen(3000 , () => {
-        console.log("Server stared");
+    app.listen(PORT , () => {
+        console.log(`Server stared on port ${PORT}`);
     });
 }).catch((err) => {
     console.log("No connection !");
+    console.log(err);
 });
 
 
