@@ -12,7 +12,7 @@
   --color-base-200: oklch(95% 0.01 250);      /* Subtle blue tint */
   --color-base-300: oklch(90% 0.015 250);     /* Light card background */
 
-  --text-color: oklch(28% 0.015 250);         /* Rich dark blue-gray */
+  --color-base-content: oklch(28% 0.015 250);         /* Rich dark blue-gray */
   --border-color: oklch(85% 0.005 250);
 }
 @plugin "daisyui/theme"{

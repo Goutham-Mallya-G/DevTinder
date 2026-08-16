@@ -14,11 +14,20 @@ const Body = () => {
   const navigate = useNavigate();
   const[theme , setTheme] = useState(()=>{
     const storedtheme = localStorage.getItem('theme');
+
     if(storedtheme === null){
-      localStorage.setItem('theme', JSON.stringify(true));
-      return true;
+      const defaultTheme = true;
+      localStorage.setItem('theme', JSON.stringify(defaultTheme));
+      return defaultTheme;
     }
-    return JSON.parse(storedtheme); 
+
+    try {
+      return JSON.parse(storedtheme);
+    } catch (error) {
+      const fallbackTheme = true;
+      localStorage.setItem('theme', JSON.stringify(fallbackTheme));
+      return fallbackTheme;
+    }
   })
   
   const fetchUser = async () => {
@@ -40,7 +49,7 @@ const Body = () => {
 
   return (
     <div data-theme={theme ? "dark" : "light"}>
-     <div className="h-screen flex flex-col w-full overflow-x-hidden">
+     <div className="h-screen flex flex-col w-full overflow-x-hidden bg-base-100 text-base-content">
        <NavBar theme= {theme} setTheme={setTheme}/>
        <div className="flex-grow flex justify-center items-center">
          <Outlet/>
